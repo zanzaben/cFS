@@ -112,6 +112,20 @@ jobs:
             exit -1
           fi
 
+      - name: PDF generation installs
+        run: |
+          sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+      
+      - name: PDF generation
+        run: |
+          set -x
+          mkdir deploy
+          cd ./build/doc/users_guide/latex
+          make > build.txt
+          mv refman.pdf $GITHUB_WORKSPACE/deploy/cFE_Users_Guide.pdf
+          # Could add pandoc and convert to github markdown
+          # pandoc CFE_Users_Guide.pdf -t gfm
+
   build-osalguide:
     # Name the Job
     name: Osal Guide
